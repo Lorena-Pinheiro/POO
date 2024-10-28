@@ -25,8 +25,8 @@ class Biblioteca{
         self::conexao()->query($livro->read());
         self::conexao()->close();
     }
-    public static function updateLivro($livro){
-        self::conexao()->query($livro->update());
+    public static function updateLivro($livro, $valores){
+        self::conexao()->query($livro->update($valores));
         self::conexao()->close();
     }
     public static function deleteLivro($livro){
@@ -34,16 +34,21 @@ class Biblioteca{
         self::conexao()->close();
     }
 
+
     public static function createUsuario($usuario){
-        self::conexao()->query($usuario->create());
+        try{
+            self::conexao()->query($usuario->create());
+        } catch(Exception $e){
+            echo 'Message: '.$e->getMessage();
+        }
         self::conexao()->close();
     }
     public static function readUsuario($usuario){
         self::conexao()->query($usuario->read());
         self::conexao()->close();
     }
-    public static function updateUsuario($usuario){
-        self::conexao()->query($usuario->update());
+    public static function updateUsuario($usuario, $valores){
+        self::conexao()->query($usuario->update($valores));
         self::conexao()->close();
     }
     public static function deleteUsuario($usuario){

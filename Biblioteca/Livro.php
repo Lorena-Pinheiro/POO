@@ -36,14 +36,17 @@ class Livro{
     public function read(){
         return $query = 'select * from livro where titulo = "'.$this->titulo.'";';
     }
-    public function update($arrayColuna){
+    public function update($valores){
         $query = "update livro set ";
-        foreach($arrayColuna as $coluna){
-            //pegar a chave
-            //pegar valor
+        $colunasArray = array_keys($valores);
 
-            $query .= $chave.' = "'.$valor.'"';
+        for($contador = 0; $contador < count($valores); $contador ++){
+            $coluna = $colunasArray[$contador];
+            $valor = $valores[$coluna];
+
+            $query .= $contador != (count($valores)-1) ? $coluna . '= "'. $valor .'", ': $coluna . '= "'. $valor .'" ';
         }
+
         return $query += 'where titulo = "'.$this->titulo.'";';
     }
     public function delete(){

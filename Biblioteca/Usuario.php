@@ -8,6 +8,9 @@ class Usuario{
     public function __construct($nome, $cep){
         $this->nome = $nome;
         $this->cep = $cep;
+        if(strlen($this->cep) < 8){
+            throw new Exception("Cep Inválido", 1);
+        }
     }
 
     public function emprestar($livro){
@@ -30,14 +33,17 @@ class Usuario{
     public function read(){
         return $query = 'select * from usuario where nome = "'.$this->nome.'";';
     }
-    public function update($arrayColuna){
+    public function update($valores){
         $query = "update usuario set ";
-        foreach($arrayColuna as $coluna){
-            //pegar a chave
-            //pegar valor
+        $colunasArray = array_keys($valores);
 
-            $query .= $chave.' = "'.$valor.'"';
+        for($contador = 0; $contador < count($valores); $contador ++){
+            $coluna = $colunasArray[$contador];
+            $valor = $valores[$coluna];
+
+            $query .= $contador != (count($valores)-1) ? $coluna . '= "'. $valor .'", ': $coluna . '= "'. $valor .'" ';
         }
+
         return $query += 'where nome = "'.$this->nome.'";';
     }
     public function delete(){
